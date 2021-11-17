@@ -2,11 +2,16 @@
   <!--
     CORE-TEST
   -->
-  <div class="core-test">core-test</div>
+  <div class="core-test">
+    <div class="core-test-wrap">
+      <edit-label v-model="value"></edit-label>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import EditLabel from '../components/edit-label/index.vue'
 
 /**
  * core 库测试环境
@@ -15,10 +20,9 @@ import { Component, Vue } from 'vue-property-decorator'
  * @input none
  * @output none
  */
-@Component({ name: 'core-test' })
+@Component({ name: 'core-test', components: { EditLabel } })
 export default class CoreTest extends Vue {
-  // created() {}
-  // mounted() {}
+  value = 'test'
 }
 </script>
 
@@ -26,5 +30,11 @@ export default class CoreTest extends Vue {
 .core-test {
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &-wrap {
+    width: 300px;
+  }
 }
 </style>

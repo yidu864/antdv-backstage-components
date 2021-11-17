@@ -17,5 +17,6 @@ body {
   height: 100% !important;
   padding: 0;
   height: 0;
+  margin: 0;
 }
 </style>
