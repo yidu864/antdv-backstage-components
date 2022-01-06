@@ -2,7 +2,7 @@
 import minimist from 'minimist'
 import { log } from './utils'
 
-type Command = 'build'
+type Command = 'build' | 'update'
 
 // args: [ pkgName:string ]
 const args = minimist(process.argv.slice(2))._
@@ -10,8 +10,12 @@ const args = minimist(process.argv.slice(2))._
 export async function dispatch<T extends Command = never>(command: Exclude<Command, T>) {
   switch (command) {
     case 'build':
-      const { run } = await import('./build')
-      await run(args[1])
+      const { run: build } = await import('./build')
+      await build(args[1])
+      break
+    case 'update':
+      const { run: update } = await import('./update')
+      await update(args[1])
       break
     default:
       log.error('=== unexpect command ===')
