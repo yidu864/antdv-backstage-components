@@ -33,25 +33,17 @@ const updateRouter = async () => {
     // router.ts
     const routerConfig = `import Vue from 'vue'
   import VueRouter from 'vue-router'
+  import Switchs from './Switch.vue'
   Vue.use(VueRouter)
   const routes = [
     {
       path: '/',
       name: 'package-switch',
-      component: () => import('./Switch.vue'),
+      component: Switchs,
+      redirect: '/core-example/${coreDir[0] || ''}',
       children: [
-        {
-          path: '/bee-wrap-example',
-          name: 'bee-wrap-example',
-          redirect: '/bee-wrap-example/${wrapDir[0] || ''}',
-          children: [${wrapConfig}]
-        },
-        {
-          path: '/core-example',
-          name: 'core-example',
-          redirect: '/core-example/${coreDir[0] || ''}',
-          children: [${coreConfig}]
-        }
+        ${wrapConfig},
+        ${coreConfig}
       ]
     },
   ]
