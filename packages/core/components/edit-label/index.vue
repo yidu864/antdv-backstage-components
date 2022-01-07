@@ -1,102 +1,106 @@
 <template>
-  <div class="edit-label">
+  <div class="s-editlabel">
     <input
       v-show="isEdit"
-      v-model="tempVal"
+      v-model="pval"
       type="text"
-      class="edit-label-input"
-      ref="edit-label-input"
+      class="s-editlabel-input"
+      ref="s-editlabel-input"
       @keydown.enter="onUpdate"
       @blur="onUpdate"
     />
-    <div v-show="!isEdit" class="edit-label-text" @dblclick="toggleEdit">{{ value }}</div>
+    <div v-show="!isEdit" class="s-editlabel-text" @dblclick="toggleEdit">{{ value }}</div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Model, Vue, Watch } from 'vue-property-decorator'
+import { Component, Model, Ref, Vue, Watch } from 'vue-property-decorator'
 
 /**
- * 可编辑的Label
- * @author xyt
+ * editable label
+ *
+ * @author yidu864
  */
-@Component({
-  name: 'edit-label'
-})
-export default class EditLabel extends Vue {
+@Component({ name: 's-editlabel' })
+export default class SEditLabel extends Vue {
   @Model('update:value', { required: true }) value!: string
+  @Ref('s-editlabel-input') sinput!: HTMLInputElement
 
   isEdit = false
-  tempVal = ''
+
+  /**
+   * proxy value
+   */
+  pval = ''
 
   @Watch('isEdit')
-  onIsEditChange(nv: boolean) {
+  editChange(nv: boolean) {
     if (!nv) return
-    this.tempVal = this.value
-    // @ts-ignore
-    const ipt: HTMLInputElement = this.$refs['edit-label-input']
-    ipt && this.$nextTick(() => ipt.focus())
+    const { sinput, value } = this
+    this.pval = value
+    sinput && this.$nextTick(() => sinput.focus())
   }
 
   mounted() {
-    this.tempVal = this.value
+    this.pval = this.value
   }
 
-  /**
-   * 切换edit 状态
-   */
   toggleEdit() {
     this.isEdit = !this.isEdit
   }
-  /** 更新value */
+
   onUpdate() {
     if (!this.isEdit) return
     this.isEdit = false
-    this.$emit('update:value', this.tempVal)
+    this.$emit('update:value', this.pval)
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.edit-label {
+@import '~/core/components/style/mixin.scss';
+
+.s-editlabel {
   position: relative;
+  box-sizing: border-box;
+  font-size: var(--s-editlabel-fz, 14px);
   height: 1.5em;
   line-height: 1.5em;
-  font-size: var(--edit-label-fz, 14px);
   &-text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     height: 100%;
-  }
-  &-text::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #00000010;
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
-  }
-  &-text:hover:before {
-    z-index: 1;
-    opacity: 1;
+    box-sizing: border-box;
+    @include line;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #00000010;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    &:hover:before {
+      z-index: 1;
+      opacity: 1;
+    }
+    &:hover {
+      user-select: none;
+    }
   }
   &-input {
-    font-size: var(--edit-label-fz, 14px);
     width: 100%;
     height: 100%;
-    background-color: transparent;
+    font-size: var(--s-editlabel-fz, 14px);
     padding: 0;
     line-height: 1;
     border-image-width: 0;
     border: none;
     outline: none;
     box-sizing: border-box;
-    transform: translateX(1px);
+    background-color: transparent;
   }
 }
 </style>
