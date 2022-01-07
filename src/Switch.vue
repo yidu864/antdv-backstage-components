@@ -2,16 +2,16 @@
   <!--
     CORE-TEST
   -->
-  <a-layout class="core-example">
-    <a-layout-header class="core-example-header">
+  <a-layout class="example">
+    <a-layout-header class="example-header">
       <div class="logo">component</div>
       <a-menu v-model="packageKey" theme="dark" mode="horizontal" :style="{ lineHeight: '64px' }">
-        <a-menu-item v-for="item in menus" :key="item" @click="$router.push(`/${item}-example`)">{{
-          item
-        }}</a-menu-item>
+        <a-menu-item v-for="item in menus" :key="item" @click="onChangePackge(item)">
+          {{ item }}
+        </a-menu-item>
       </a-menu>
     </a-layout-header>
-    <a-layout-content class="core-example-wrap">
+    <a-layout-content class="example-wrap">
       <div class="left-section">
         <div
           v-for="item in targetMenu"
@@ -33,8 +33,8 @@
 import { Component, Vue } from 'vue-property-decorator'
 import menus from './menu'
 
-@Component({ name: 'switch-container' })
-export default class SwitchContainer extends Vue {
+@Component({ name: 'example' })
+export default class ExampleWrap extends Vue {
   // checked = 'test'
 
   get menus() {
@@ -46,11 +46,15 @@ export default class SwitchContainer extends Vue {
   get targetMenu() {
     return menus[this.packageKey[0]]
   }
+
+  onChangePackge(key: string) {
+    this.$router.push(menus[key][0].path)
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.core-example {
+.example {
   height: 100%;
   .logo {
     width: 120px;
@@ -80,7 +84,7 @@ export default class SwitchContainer extends Vue {
     .right-content {
       flex: 1;
       box-sizing: border-box;
-      padding: 10px;
+      padding: 0 10px;
     }
     .section-item {
       height: 40px;
