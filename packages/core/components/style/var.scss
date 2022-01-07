@@ -1,0 +1,17 @@
+$--color-white: #007aff;
+$--color-black: #1b1b1b;
+
+$m-color1: #007aff;
+$m-color2: #1b1b1b;
+$m-danger: #ff4d4f;
+
+$hd: 2 !default; // 基本单位
+
+// 字体大小
+$fz-app-title: 20px * $hd !default;
+$fz-module-title: 18px * $hd !default;
+$fz-page-title: 16px * $hd !default;
+$fz-read: 15px * $hd !default;
+$fz-smbtn: 14px * $hd !default;
+$fz-text: 13px * $hd !default;
+$fz-label: 12px * $hd !default;
