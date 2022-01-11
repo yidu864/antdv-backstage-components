@@ -1,6 +1,6 @@
 <template>
   <div class="edit-label-example">
-    <edit-label class="edit-label-example-comp" v-model="value"></edit-label>
+    <edit-label class="edit-label-example-comp" :value.sync="value"></edit-label>
   </div>
 </template>
 

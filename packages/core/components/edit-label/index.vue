@@ -5,7 +5,7 @@
       v-model="pval"
       type="text"
       class="s-editlabel-input"
-      ref="s-editlabel-input"
+      ref="siptref"
       @keydown.enter="onUpdate"
       @blur="onUpdate"
     />
@@ -14,47 +14,56 @@
 </template>
 
 <script lang="ts">
-import { Component, Model, Ref, Vue, Watch } from 'vue-property-decorator'
+import { defineComponent, ref, watch, nextTick, onMounted } from '@vue/composition-api'
 
 /**
- * editable label
- *
+ * edit-label
  * @author yidu864
  */
-@Component({ name: 's-editlabel' })
-export default class SEditLabel extends Vue {
-  @Model('update:value', { required: true }) value!: string
-  @Ref('s-editlabel-input') sinput!: HTMLInputElement
+export default defineComponent({
+  props: {
+    value: { required: true, type: String }
+  },
+  emits: ['update:value'],
+  setup(props, { emit }) {
+    const siptref = ref<HTMLInputElement>()
 
-  isEdit = false
+    const isEdit = ref(false)
 
-  /**
-   * proxy value
-   */
-  pval = ''
+    /**
+     * proxy value
+     */
+    const pval = ref('')
 
-  @Watch('isEdit')
-  editChange(nv: boolean) {
-    if (!nv) return
-    const { sinput, value } = this
-    this.pval = value
-    sinput && this.$nextTick(() => sinput.focus())
+    watch(isEdit, (nv: boolean) => {
+      if (!nv) return
+      pval.value = props.value
+      siptref.value && nextTick(() => siptref.value?.focus())
+    })
+
+    onMounted(() => {
+      pval.value = props.value
+    })
+
+    const toggleEdit = () => {
+      isEdit.value = !isEdit.value
+    }
+
+    const onUpdate = (e: any) => {
+      if (!isEdit.value) return
+      isEdit.value = false
+      emit('update:value', e.target.value)
+    }
+
+    return {
+      isEdit,
+      pval,
+      siptref,
+      onUpdate,
+      toggleEdit
+    }
   }
-
-  mounted() {
-    this.pval = this.value
-  }
-
-  toggleEdit() {
-    this.isEdit = !this.isEdit
-  }
-
-  onUpdate() {
-    if (!this.isEdit) return
-    this.isEdit = false
-    this.$emit('update:value', this.pval)
-  }
-}
+})
 </script>
 
 <style lang="scss" scoped>
