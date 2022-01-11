@@ -7,12 +7,12 @@ module.exports = {
   },
   devServer: {
     open: false,
-    historyApiFallback: true,
-    proxy: {
-      // '/api|/bus|/mix|/websocket|/file': {
-      // ws: false, // proxy websockets
-      // target: 'url'
-      // }
-    }
+    historyApiFallback: true
+    // proxy: {
+    // '/api|/bus|/mix|/websocket|/file': {
+    // ws: false, // proxy websockets
+    // target: 'url'
+    // }
+    // }
   }
 }
