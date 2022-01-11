@@ -1,5 +1,8 @@
-import { VueConstructor } from 'vue'
-import EditLabel from './components/edit-label/index.vue'
+import Vue, { VueConstructor } from 'vue'
+import VueCompositionAPI from '@vue/composition-api'
+import EditLabel from '../components/edit-label/index.vue'
+
+Vue.use(VueCompositionAPI)
 
 const components = [EditLabel]
 
