@@ -1,6 +1,6 @@
 import Vue, { VueConstructor } from 'vue'
 import VueCompositionAPI from '@vue/composition-api'
-import EditLabel from '../components/edit-label/index.vue'
+import EditLabel from './components/edit-label/index'
 
 Vue.use(VueCompositionAPI)
 

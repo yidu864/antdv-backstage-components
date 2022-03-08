@@ -10,12 +10,19 @@ const args = minimist_1.default(process.argv.slice(2))._;
 async function dispatch(command) {
     switch (command) {
         case 'build':
+            // npm run dispatch.js build
             const { run: build } = await Promise.resolve().then(() => tslib_1.__importStar(require('./build')));
-            await build(args[1]);
+            build(args[1]);
             break;
         case 'update':
+            // npm run dispatch.js update
             const { run: update } = await Promise.resolve().then(() => tslib_1.__importStar(require('./update')));
-            await update(args[1]);
+            update(args[1]);
+            break;
+        case 'create':
+            // npm run dispatch.js create example core:edit-label
+            const { run: create } = await Promise.resolve().then(() => tslib_1.__importStar(require('./create')));
+            create(args[1], args[2]);
             break;
         default:
             utils_1.log.error('=== unexpect command ===');

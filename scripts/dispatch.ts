@@ -10,12 +10,19 @@ const args = minimist(process.argv.slice(2))._
 export async function dispatch<T extends Command = never>(command: Exclude<Command, T>) {
   switch (command) {
     case 'build':
+      // npm run dispatch.js build
       const { run: build } = await import('./build')
-      await build(args[1])
+      build(args[1])
       break
     case 'update':
+      // npm run dispatch.js update
       const { run: update } = await import('./update')
-      await update(args[1])
+      update(args[1])
+      break
+    case 'create':
+      // npm run dispatch.js create example core:edit-label
+      const { run: create } = await import('./create')
+      create(args[1], args[2])
       break
     default:
       log.error('=== unexpect command ===')

@@ -10,6 +10,7 @@
     "build:wrap": "npm run dispatch build bee-wrap",
     "build:core": "npm run dispatch build core",
     "update": "npm run dispatch update router",
+    "example": "npm run dispatch create example",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "commit": "cz",
